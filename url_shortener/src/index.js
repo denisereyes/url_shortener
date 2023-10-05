@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 //added below imports 
-import { BrowserRouter } from "react-router-dom";
-import {initializeApp} from "firebase/app"; 
+import { BrowserRouter } from 'react-router-dom';
+import {initializeApp} from 'firebase/app'; 
 
 //copied from firebase 
 const firebaseConfig = {
