@@ -148,7 +148,73 @@ class Form extends React.Component {
             <div className = "container">
                 <form autoComplete="off">
                     <h3>Short Link!</h3>
+
+                    <div className="form-group">
+                        <label>Enter the long url</label>
+                        <input
+                            id="longURL"
+                            onChange={this.handleChange} //calling our function from ealier
+                            value={this.state.longURL}
+                            type="url"
+                            required
+                            className={
+                                this.hasError("longURL")
+                                ? "form-control is-invalid"
+                                : "form-control"
+                            }
+                            plaeholder="include http://www. pls"
+                        />
+                    </div>
+                    <div
+                        className={
+                            this.hasError("longURL") ? "text-danger" : "visually-hidden"
+                        }
+                    >
+                        {this.state.errorMessage.longURL}
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="basic-url">Short url coming right up!</label>
+                        <div className='input-group mb-3'>
+                            <div className="input-group-prepend">
+                            <span className="input-group-text">shortlink.com/</span>
+                            </div>
+                        <input
+                            id="preferredAlias"
+                            onChange={this.handleChange}
+                            value={this.state.prefferedAlias} //calling our function from earlier
+                            className={
+                                this.hasError("prefferedAlias")
+                                    ? "form-control is-invalid"
+                                    : "form-control"
+                            }
+                            type="text" placeholder="ex. s8ume"
+                        />
+                        </div>
+                        <div 
+                            className={this.hasError("suggestedAlias") ? "text-danger" : "visually-hidden"}
+                        >
+                            {this.state.errorMessage.suggestedAlias}
+                        </div>
+                    </div>
                     
+                    
+                    <button className="btn btn-primary" type="button" onClick={this.onSubmit}>
+                        {
+                            this.state.loading ?
+                                <div> 
+                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                </div> :
+                                <div>
+                                    <span className="visually-hhidden psinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span>Short Link</span>
+                                </div>
+                        }
+                    </button>
+
+                    //more to come here 
+
+
                 </form>
             </div>
         );
