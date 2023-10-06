@@ -1,6 +1,6 @@
 import React from 'react'; //every component needs to import react or react components
 import { nanoid } from 'nanoid'; // creates characters for url
-import { getDatabase, child, ref, set, get} from 'firebase/database'; //firebase database methods 
+import { getDatabase, child, ref, set, get} from "firebase/database"; //firebase database methods 
 import { isWebUri } from 'valid-url'; //used to chekc if a inputted url is valid 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from "react-bootstrap/Tooltip"; //for copied message to user
@@ -26,7 +26,7 @@ class Form extends React.Component {
         event.preventDefault(); //stops page from reloading
         this.setState({
             loading: true,
-            generatedUrl: '' 
+            generatedURL: '' 
         })
 
         //validated the url the user has inputted
@@ -37,16 +37,16 @@ class Form extends React.Component {
 
         //generate new url 
         var generatedKey = nanoid(5); //5 characters 
-        var generatedURL = 'shortlink/' + generatedKey
+        var generatedURL = "shortlink.com/" + generatedKey
         
         //if user has prefered short link we use that 
         if(this.state.preferedAlias !== ''){
             generatedKey = this.state.preferedAlias
-            generatedURL = 'shortlink/' + generatedKey
+            generatedURL = "shortlink.com/" + this.state.preferedAlias
         }
 
         //update database with new info
-        const db = getDatabase()
+        const db = getDatabase();
         set(ref(db, '/' + generatedKey), {
             generatedKey: generatedKey,
             longURL: this.state.longURL,
@@ -60,7 +60,7 @@ class Form extends React.Component {
         }).catch((e) => {
             //handle error 
         })
-    }
+    };
 
     //helper functions 
     //checks if there is any error overall
@@ -85,11 +85,11 @@ class Form extends React.Component {
         //validated user inputted url
         if(this.state.longURL.length === 0){ //nothing is inputted 
             errors.push("longURL");
-            errorMessages["longURl"] = 'no url inputted :('
+            errorMessages['longURl'] = 'no url inputted :(';
         } 
         else if (!isWebUri(this.state.longURL)) { //is not valid url
             errors.push("longURL");
-            errorMessages["longURL"] = 'use a url in form of https://www...'
+            errorMessages['longURL'] = 'use a url in form of https://www...';
         }
 
         //preferred alias 
@@ -97,20 +97,20 @@ class Form extends React.Component {
             //checks if alias is greater than 7 char long
             if(this.state.preferedAlias.length > 7) {
                 errors.push("suggestedAlias");
-                errorMessages["suggestedAlias"] = 'needs to be less than 7 characers'
+                errorMessages['suggestedAlias'] = 'needs to be less than 7 characers';
             }
             //checks if alias has blank spaces 
             else if(this.state.preferedAlias.indexOf(' ') >= 0){
-                errors.push("suggestedAlias")
-                errorMessages["auggestedAlias"] = 'no blank spaces pls'
+                errors.push("suggestedAlias");
+                errorMessages['auggestedAlias'] = 'no blank spaces pls';
             }
 
             var keyExists = await this.checkKeyExists()
 
             //checks is alias exists or not
             if(keyExists.exists()) {
-                errors.push("suggestedAlias")
-                errorMessages["suggestedAlias"] = 'already taken! ty again :)'
+                errors.push("suggestedAlias");
+                errorMessages["suggestedAlias"] = 'already taken! ty again :)';
             }
         }
         //update states 
@@ -123,13 +123,13 @@ class Form extends React.Component {
         if(errors.length > 0){
             return false;
         }
-        return true
+        return true;
     }
 
     //checks if key exists in the database and fetches preferred alias
     checkKeyExists = async () => {
         const dbRef = ref(getDatabase());
-        return get(child(dbRef, `/${this.state.preferredAlias}`)).catch((error) => {
+        return get(child(dbRef, `/${this.state.preferedAlias}`)).catch((error) => {
             return false 
         });
     }
@@ -180,11 +180,11 @@ class Form extends React.Component {
                             <span className="input-group-text">shortlink.com/</span>
                             </div>
                         <input
-                            id="preferredAlias"
+                            id="preferedAlias"
                             onChange={this.handleChange}
-                            value={this.state.prefferedAlias} //calling our function from earlier
+                            value={this.state.preferedAlias} //calling our function from earlier
                             className={
-                                this.hasError("prefferedAlias")
+                                this.hasError("preferedAlias")
                                     ? "form-control is-invalid"
                                     : "form-control"
                             }
@@ -206,7 +206,7 @@ class Form extends React.Component {
                                     <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </div> :
                                 <div>
-                                    <span className="visually-hhidden psinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span className="visually-hidden spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     <span>Short Link</span>
                                 </div>
                         }
